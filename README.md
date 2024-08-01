@@ -26,12 +26,14 @@
 ![image](https://github.com/user-attachments/assets/f3b64982-dc26-44ad-b4f4-8b438627b305)
 
 # RPC通信原理
-RPC，即远程过程调用协议
+- RPC，即远程过程调用协议
 ![image](https://github.com/user-attachments/assets/9655a39d-4b7b-4d33-b014-541a20552907)
-我们要实现的**分布式网络通信框架**负责处理的范围：图中黄/绿色部分
-黄色部分：进行序列化与反序列化
-绿色部分：网络部分，寻找RPC服务主机，发起RPC调用请求，响应RPC调用结果，使用muduo网络库和Zookeeper服务配置中心，专门做服务发现
+- 我们要实现的**分布式网络通信框架**负责处理的范围：图中黄/绿色部分
+- 黄色部分：进行序列化与反序列化
+- 绿色部分：网络部分，寻找RPC服务主机，发起RPC调用请求，响应RPC调用结果，使用muduo网络库和Zookeeper服务配置中心，专门做服务发现
 
 # Protobuf相当于Json好处
 - Protobuf用二进制存储节省空间，Json文本存储
 - Protobuf不需要存储额外信息，Json用key和value
+
+# 环境配置使用
