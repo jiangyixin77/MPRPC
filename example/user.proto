@@ -1,0 +1,33 @@
+syntax = "proto3"; //protobuf版本
+
+package fixbug;//声明代码所在的包，对C++来说是namespace
+
+//定义下面选项，表示生成service服务类和RPC方法描述，默认不生成
+option cc_generic_services = true;
+
+//数据  列表
+message ResultCode
+{
+    int32 errcode = 1;
+    bytes errmsg = 2;
+}
+
+message LoginRequest//定义登录请求消息类型 
+{
+    bytes name = 1;
+    bytes pwd = 2;
+}
+
+message LoginResponse//定义登录响应消息类型
+{
+    ResultCode result = 1;
+    bool success = 2;
+}
+
+//在protobuf里定义描述RPC方法的类型-service
+service UserServiceRPC
+{
+    rpc Login(LoginRequest) returns(LoginResponse);
+}
+
+//编译输入：protoc user.proto --cpp_out=./
