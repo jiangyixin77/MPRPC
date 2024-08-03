@@ -65,6 +65,8 @@
 
 # Protobuf底层原理
 - ![image](https://github.com/user-attachments/assets/a1f428bd-1514-4048-b1d0-97933b899161)
+- ![image](https://github.com/user-attachments/assets/fe3d8d5d-59a5-48ca-926a-4d5c0614621f)
+- ![image](https://github.com/user-attachments/assets/8b26539b-3546-4754-8c4c-a7178a668b90)
 
-- ![image](https://github.com/user-attachments/assets/bed33049-8947-45e9-9f3c-b7fbf30e9ff5)
-
+# 本地服务怎么发布成RPC服务
+- 具体代码见文件：example/callee/userservice.cc
