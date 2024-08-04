@@ -38,6 +38,15 @@ class UserService : public fixbug::UserServiceRpc  //使用在RPC服务发布端
 
 int main()
 {
+    //调用框架的初始化操作
+    MprpcApplication::Init(argc,argv);
 
+    //provider是一个RPC网络服务对象，这里把UserService对象发布到RPC节点
+    RPCProvider provider;
+    provider.NotifyService(new UserService());
+
+    //启动一个RPC服务发布节点   运行后，进程阻塞，等待远程RPC调用请求
+    provider.Run();
+    
     return 0;
 }
