@@ -69,4 +69,12 @@
 - ![image](https://github.com/user-attachments/assets/8b26539b-3546-4754-8c4c-a7178a668b90)
 
 # 本地服务怎么发布成RPC服务
-- 具体代码见文件：example/callee/userservice.cc
+- 具体代码见文件：```example/callee/userservice.cc```class部分
+
+# MPRPC框架基础类设计
+- 具体代码见文件：```example/callee/userservice.cc```main部分以及src的库文件源文件
+
+# MPRPC框架项目动态库编译
+- 对部分CMakeLists文件进行编译
+- 然后在编译器CMake环节直接进行编译   **最大问题：proto环境安装不正确**
+- 生成lib/libmprpc.so以及可执行文件bin/provider
