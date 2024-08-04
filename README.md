@@ -57,7 +57,7 @@
 - Protobuf不需要存储额外信息，Json用key和value
 
 # Protobuf示例
-- 编写文件：test/protobuf/test.proto
+- 编写文件：```test/protobuf/test.proto```
 - 在protobuf文件夹执行：```protoc test.proto --cpp_out=./``` 生成```test.pb.cc```和```test.pb.h```
 - 再去编译test/protobuf/main.cc   **进行序列化与反序列化**
 - 在protobuf文件夹执行:```g++ main.cc test.pb.cc -lprotobuf```
@@ -72,9 +72,20 @@
 - 具体代码见文件：```example/callee/userservice.cc```class部分
 
 # MPRPC框架基础类设计
-- 具体代码见文件：```example/callee/userservice.cc```main部分以及src的库文件源文件
+- 具体代码见文件：```example/callee/userservice.cc```main部分以及```src的mprpc_application和rpc_provider的库文件源文件```
 
 # MPRPC框架项目动态库编译
 - 对部分CMakeLists文件进行编译
 - 然后在编译器CMake环节直接进行编译   **最大问题：proto环境安装不正确**
 - 生成lib/libmprpc.so以及可执行文件bin/provider
+
+# MPRPC框架配置文件加载
+- 具体代码见文件：```src/include/mprpc_config.h及.cc```外加```/bin/test.conf```
+- 同时在```mprpc_application.cc```进行相应修改
+
+# 进行调试
+- 在CmakeLists输入对应语句，cmake后再在bin文件夹内输入命令：```gdb ./provider```
+- 然后，设定断点，开始gdb调试
+
+# 开发RpcProvider的网络服务
+- ```/src/rpcprovider.cc```
