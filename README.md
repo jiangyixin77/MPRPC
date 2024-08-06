@@ -88,4 +88,7 @@
 - 然后，设定断点，开始gdb调试
 
 # 开发RpcProvider的网络服务
-- ```/src/rpcprovider.cc```
+- ```/src/rpcprovider.cc和.h```
+- 然后开始cmake编译             **发现有库找不到：sudo find /usr -name "lib※"**
+
+# RpcProvider发布服务方法
