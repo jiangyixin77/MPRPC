@@ -92,3 +92,13 @@
 - 然后开始cmake编译             **发现有库找不到：sudo find /usr -name "lib※"**
 
 # RpcProvider发布服务方法
+- ![无标题](https://github.com/user-attachments/assets/96e8c689-725f-424f-97f9-2064ec411886)
+- ```/src/rpcprovider.cc和.h``
+
+# RpcProvider分发RPC服务
+- ```/src/rpcprovider.cc```
+- ```/src/rpcheader.cc```
+- protoc rpcheader.proto --cpp_out=./
+- ![image](https://github.com/user-attachments/assets/ed32a344-644c-4a63-b054-3763f2ecaaa8)
+- ![image](https://github.com/user-attachments/assets/ee47125c-c697-4ff1-9f86-f57a3f0c9f1a)
+
