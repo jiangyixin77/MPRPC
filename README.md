@@ -72,33 +72,28 @@
 - 具体代码见文件：```example/callee/userservice.cc```class部分
 
 # MPRPC框架基础类设计
-- 具体代码见文件：```example/callee/userservice.cc```main部分以及```src的mprpc_application和rpc_provider的库文件源文件```
+- 具体代码见文件：```example/callee/userservice.cc```main部分
+- 具体代码见文件：```src/mprpc_application```
+- 具体代码见文件：```src/rpc_provider.cc + src/rpc_provider.h```
 
 # MPRPC框架项目动态库编译
 - 对部分CMakeLists文件进行编译
-- 然后在编译器CMake环节直接进行编译   **最大问题：proto环境安装不正确**
+- 然后在编译器CMake环节直接进行编译   **问题：proto环境安装不正确**
 - 生成lib/libmprpc.so以及可执行文件bin/provider
 
 # MPRPC框架配置文件加载
-- 具体代码见文件：```src/include/mprpc_config.h及.cc```外加```/bin/test.conf```
+- 具体代码见文件：```src/include/mprpc_config.h + src/include/mprpc_config.cc + /bin/test.conf```
 - 同时在```mprpc_application.cc```进行相应修改
 
-# 进行调试
+# 进行GDB调试
 - 在CmakeLists输入对应语句，cmake后再在bin文件夹内输入命令：```gdb ./provider```
-- 然后，设定断点，开始gdb调试
+- 然后，设定断点，开始GDB调试
 
-# 开发RpcProvider的网络服务
-- ```/src/rpcprovider.cc和.h```
+# RpcProvider网络服务开发，服务方法发布，分发RPC服务，以及RPC响应回调实现
+- 具体代码见文件：```/src/rpc_provider.cc + /src/rpcprovider.h + /src/rpc_header.proto```
 - 然后开始cmake编译             **发现有库找不到：sudo find /usr -name "lib※"**
-
-# RpcProvider发布服务方法
 - ![无标题](https://github.com/user-attachments/assets/96e8c689-725f-424f-97f9-2064ec411886)
-- ```/src/rpcprovider.cc和.h``
+- protoc rpc_header.proto --cpp_out=./
+- **针对类型不匹配的bug，直接强制定义参数的类型**
 
-# RpcProvider分发RPC服务
-- ```/src/rpcprovider.cc```
-- ```/src/rpcheader.cc```
-- protoc rpcheader.proto --cpp_out=./
-- ![image](https://github.com/user-attachments/assets/ed32a344-644c-4a63-b054-3763f2ecaaa8)
-- ![image](https://github.com/user-attachments/assets/ee47125c-c697-4ff1-9f86-f57a3f0c9f1a)
-
+# 调用RpcChannel
