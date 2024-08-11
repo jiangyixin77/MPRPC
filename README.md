@@ -90,10 +90,56 @@
 - 然后，设定断点，开始GDB调试
 
 # RpcProvider网络服务开发，服务方法发布，分发RPC服务，以及RPC响应回调实现
-- 具体代码见文件：```/src/rpc_provider.cc + /src/rpcprovider.h + /src/rpc_header.proto```
+- 具体代码见文件：```/src/rpc_provider.cc + /src/rpc_provider.h + /src/rpc_header.proto```
 - 然后开始cmake编译             **发现有库找不到：sudo find /usr -name "lib※"**
 - ![无标题](https://github.com/user-attachments/assets/96e8c689-725f-424f-97f9-2064ec411886)
 - protoc rpc_header.proto --cpp_out=./
 - **针对类型不匹配的bug，直接强制定义参数的类型**
 
-# 调用RpcChannel
+# caller端调用RpcChannel
+- 具体代码见文件：```example/caller/calluser_service.cc + src/include/mprpc_channel.h```
+- src中cmake文件也应修改
+
+# 实现RPC方法的调用过程
+- ![image](https://github.com/user-attachments/assets/471ed19a-fe1b-490c-b83b-407faea284e8)
+- 具体代码见文件：```example/caller/call_user_service.cc + src/include/mprpc_channel.cc```
+- **问题：recv_buf中，遇到\0后面的数据就存不下来了，导致反序列化失败**
+
+# MPRPC框架应用示例（加入注册功能）
+- 具体代码见文件：```example/user.proto + example/callee/user_service.cc + caller/calluser_service.cc```
+
+# MPRPC框架应用示例(加入好友管理功能）
+- 具体代码见文件：```example/friend.proto + example/callee/friend_service.cc + example/caller/callfriend_service.cc + src/include/mprpc_controller.h/cc + src/mprpc_channel.cc```
+- src内部的cmake文件也应补上相关的cc文件
+
+# logger日志系统+缓冲队列设计
+- ![image](https://github.com/user-attachments/assets/28dcb138-bd5b-4736-a849-0fe27ffc0ebe)
+- 具体代码见文件：```src/include/logger.h + src/include/lockqueue.h + src/logger.cc```
+
+# 异步日志缓冲队列实现
+- 具体代码见文件：```src/lock_queue.h + rpc_provider.cc + logger.cc```
+
+# zookeeper
+- zk在分布式环境中应用广泛，优点：分布式环境全局命名服务，服务注册中心，全局分布式锁等
+- 配置中心查找相应的服务，进行远程调用(ip:port)  
+- 基于服务配置中心的协调功能
+- zk存储数据就是一个特殊的文件系统，zk数据通过znode节点组织
+- ![image](https://github.com/user-attachments/assets/1d4680a3-2cb2-47f8-9139-8f38acf405ba)
+- zk命令：ls看节点，get查节点，create建节点，set改，delete删
+- ![image](https://github.com/user-attachments/assets/df7c2442-4676-4814-ad48-f71da74fe7af)
+- ![image](https://github.com/user-attachments/assets/85261593-f6c5-4ee7-bb7b-da79ce474816)
+- ![image](https://github.com/user-attachments/assets/e6f9d4fd-030a-4fcd-8e22-74fd09bcffc6)
+- 永久性节点不会删，删临时性节点
+- ![image](https://github.com/user-attachments/assets/62b80d79-5461-4716-8609-88d3c00e5412)
+
+# zk的watcher机制
+事件回调机制，二者互相通信
+
+# 封装zk客户端类
+- 具体代码见文件：```src/include/zk_util.h/cc + bin/test.conf"
+
+# autobuild.sh文件
+
+# 总体框架
+- ![image](https://github.com/user-attachments/assets/dae76210-e765-455a-8891-735bba118424)
+- ![image](https://github.com/user-attachments/assets/d8bc0704-2106-4426-8899-bfa8ce544ff5)
