@@ -24,10 +24,24 @@ message LoginResponse//定义登录响应消息类型
     bool success = 2;
 }
 
+message RegisterRequest//定义注册请求消息类型 
+{
+    uint32 id = 1;
+    bytes name = 2;
+    bytes pwd = 3;
+}
+
+message RegisterResponse//定义注册响应消息类型
+{
+    ResultCode result = 1;
+    bool success = 2;
+}
+
 //在protobuf里定义描述RPC方法的类型-service
 service UserServiceRPC
 {
     rpc Login(LoginRequest) returns(LoginResponse);
+    rpc Register(RegisterRequest) returns(RegisterResponse);
 }
 
 //编译输入：protoc user.proto --cpp_out=./
