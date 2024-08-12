@@ -24,8 +24,35 @@ int main(int argc,char **argv)
   stub.Login(nullptr,&request,&response,nullptr);
 
   //RPC调用完成后，读取调用结果
-  if(response.result().errcode() == 0) std::cout << "RPC登录响应成功：" << response.success() << std::endl;
-  else std::cout << "RPC登录响应失败：" << response.result().errmsg() << std::endl;
+  if(response.result().errcode() == 0) 
+  {
+    std::cout << "RPC登录响应成功：" << response.success() << std::endl;
+  }
+  else 
+  {
+    std::cout << "RPC登录响应失败：" << response.result().errmsg() << std::endl;
+  }
 
+  //调用远程发布的RPC方法Register
+  fixbug::RegisterResponse rsp;
+
+  //RPC方法的Register方法的请求参数，id，姓名和密码
+  fixbug::RegisterRequest req;
+  req.set_id(1);
+  req.set_name("seven");
+  req.set_pwd("12345");
+
+  //以同步方式发起RPC调用请求并等待结果返回
+  stub.Register(nullptr,&req,&rsp,nullptr);
+
+  //RPC调用完成后，读取调用结果
+  if(rsp.result().errcode() == 0) 
+  {
+    std::cout << "RPC注册响应成功：" << response.success() << std::endl;
+  }
+  else 
+  {
+    std::cout << "RPC注册响应失败：" << response.result().errmsg() << std::endl;
+  }
   return 0;
 }
