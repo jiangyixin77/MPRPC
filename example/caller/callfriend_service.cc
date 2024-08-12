@@ -19,6 +19,7 @@ int main(int argc,char **argv)
   fixbug::GetFriendsListResponse response;
 
   //发起RPC方法的调用
+  MprpcController controller;
   stub.GetFriendsList(nullptr,&request,&response,nullptr);
 
   //RPC调用完成，读取结果
