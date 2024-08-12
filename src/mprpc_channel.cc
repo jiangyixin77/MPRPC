@@ -1,4 +1,6 @@
 #include "mprpc_channel.h"
+#include "mprpc_application.h"
+#include "mprpc_controller.h"
 #include <string>
 #include "rpcheader.pb.h"
 
@@ -23,7 +25,8 @@ void CallMethod(const google::protobuf::MethodDescriptor* method,
     args_size = args_str.size();
   else 
   {
-    std::cout << "序列化请求失败！" <<std::endl; 
+    //std::cout << "序列化请求失败！" <<std::endl;
+    controller->SetFailed("序列化请求失败！");
     return;
   }
 
@@ -42,7 +45,8 @@ void CallMethod(const google::protobuf::MethodDescriptor* method,
   }
   else 
   {
-    std::cout << "序列化RPC header失败！" <<std::endl; 
+    //std::cout << "序列化RPC header失败！" <<std::endl; 
+    controller->SetFailed("序列化RPC header失败！");
     return;
   }
 
@@ -63,8 +67,11 @@ void CallMethod(const google::protobuf::MethodDescriptor* method,
   int clientfd = socket(AF_INET,SOCK_STREAM,0);
   if(clientfd == -1) 
   {
-    std::cout << "套接字创建失败！错误码：" << errno << std::endl;  
-    exit(EXIT_FAILURE);
+    //std::cout << "套接字创建失败！错误码：" << errno << std::endl;  
+    char errtxt[512] = {0};
+    sprintf(errtxt,"套接字创建失败！错误码：%d",errno);
+    controller->SetFailed(errtxt);
+    return;
   }
 
   //读取配置文件RPCServer的IP地址和接口信息
@@ -80,14 +87,20 @@ void CallMethod(const google::protobuf::MethodDescriptor* method,
   //下面开始连接RPC的服务节点
   if(connect(clientfd,(struct sockaddr*)&server_addr,sizeof(server_addr)) == -1)
   {
-    std::cout << "连接失败！错误码：" << errno << std::endl;
-    exit(EXIT_FAILURE);
+    //std::cout << "连接失败！错误码：" << errno << std::endl;
+    char errtxt[512] = {0};
+    sprintf(errtxt,"连接失败！错误码：%d",errno);
+    controller->SetFailed(errtxt);
+    return;
   }
 
   //发送RPC请求
   if(send(clientfd,send_rpc_str.c_str(),send_rpc_str.size(),0) == -1)
   {
-    std::cout << "发送失败！错误码：" << errno << std::endl;
+    //std::cout << "发送失败！错误码：" << errno << std::endl;
+    char errtxt[512] = {0};
+    sprintf(errtxt,"发送失败！错误码：%d",errno);
+    controller->SetFailed(errtxt);
     return;
   }
 
@@ -96,7 +109,10 @@ void CallMethod(const google::protobuf::MethodDescriptor* method,
   int recv_size = recv(clientfd,recv_buf,1024,0);
   if(recv(clientfd,recv_buf,1024,0) == -1)
   {
-    std::cout << "接收失败！错误码：" << errno << std::endl;
+    //std::cout << "接收失败！错误码：" << errno << std::endl;
+    char errtxt[512] = {0};
+    sprintf(errtxt,"接收失败！错误码：%d",errno);
+    controller->SetFailed(errtxt);
     close(clientfd);
     return;
   }
@@ -106,7 +122,9 @@ void CallMethod(const google::protobuf::MethodDescriptor* method,
   std::string response_str(recv_buf,0,recv_size);
   if(!response->ParseFromArray(recv_buf,recv_size))
   {
-    std::cout << "错误！响应字符串：" << response_str <<std::endl;
+    //std::cout << "错误！响应字符串：" << response_str << std::endl;
+    char errtxt[512] = {0};
+    sprintf(errtxt,"错误！响应字符串：%d",response_str);
     close(clientfd);
     return;
   }
