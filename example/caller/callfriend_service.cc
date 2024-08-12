@@ -23,7 +23,7 @@ int main(int argc,char **argv)
   stub.GetFriendsList(nullptr,&request,&response,nullptr);
 
   //RPC调用完成，读取结果
-  if(response.result().errcode() == 0)
+  if(!controller.Failed())
   {
     std::cout << "RPC获得好友列表 响应成功" << std::endl;
     int size = response.friends_size();
@@ -34,6 +34,6 @@ int main(int argc,char **argv)
   }
   else
   {
-    std::cout << ""RPC获得好友列表 响应失败" << response.result().errmsg() << std::endl;
+    std::cout << controller.ErrorText() << std::endl;
   }
 }
