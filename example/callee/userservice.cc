@@ -5,11 +5,20 @@ using namespace fixbug;
 //UserService原来是本地服务，提供两个进程内的本地方法，Login和GetFriendLists
 class UserService : public fixbug::UserServiceRpc  //使用在RPC服务发布端
 {
-    public:
+public:
     bool Login(std::string name,std::string pwd)
     {
         std::cout << "name:" << name << "pwd:" << pwd << std::endl;
+        return true;
     }
+
+    bool Register(uint32_t id,std::string name,std::string pwd)
+    {
+        std::cout << "本地服务开启：注册" << std::endl;
+        std::cout << "id:" << id << "name:" << name << "pwd:" << pwd << std::endl;
+        return true;
+    }
+
     //重写基类UserServiceRpc虚函数          【下面方法都是框架直接调用的】
     //1.caller -> Login(LoginRequest) -> muduo -> callee
     //2.callee -> Login(LoginRequest) -> 交由下面重写的这个Login方法
@@ -32,6 +41,24 @@ class UserService : public fixbug::UserServiceRpc  //使用在RPC服务发布端
         response->set_success(login_result);
 
         //执行回调操作  执行响应对象数据的序列化和网络发送（都是由框架来完成的）
+        done->Run();
+    }
+
+    void Register(::google::protobuf::RpcController* controller,
+                       const ::fixbug::LoginRequest* request,
+                       ::fixbug::LoginResponse* response,
+                       ::google::protobuf::Closure* done)
+    {
+        uint32_t id = request->id();
+        std::string name = request->name();
+        std::string pwd = request->pwd();
+
+        bool ret = Register(id,name,pwd);
+
+        response->nutable_result()->set_errcode(0);
+        response->nutable_result()->set_errmsg("");
+        response->set_success(ret);
+
         done->Run();
     }
 };
