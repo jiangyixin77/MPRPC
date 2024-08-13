@@ -5,7 +5,9 @@ set(SRC_LIST
     rpc_header.pb.cc 
     rpc_provider.cc
     mprpc_channel.cc
-    mprpc_controller.cc)
+    mprpc_controller.cc
+    logger.cc
+    zk_util.cc)
 add_library(mprpc ${SRC_LIST})
 #依赖库是有顺序的！！！
-target_link_libraries(mprpc muduo_net muduo_base pthread)  
+target_link_libraries(mprpc muduo_net muduo_base pthread zookeeper_mt)  
