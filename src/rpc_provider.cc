@@ -1,5 +1,5 @@
 #include "rpc_provider.h"
-#include "rpcheader.pb.h"
+#include "rpc_header.pb.h"
 #include "mprpc_application.h"
 
 
@@ -46,6 +46,29 @@ void RpcProvider::Run()
     server.setMessageCallback(std::bind(&RpcProvider::OnMessage,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
     //设置muduo库线程数量
     server.setThreadNum(4);
+
+    //把当前rpc节点上要发布的服务全部注册到zk上面，让rpc_client可以从zk上发现服务
+    Zkclient zkcli;
+    zkcli.start();
+    //service_name为永久性节点
+    //method_name为临时性节点
+    for(auto &sp :mserviceMap)
+    {
+        //service name
+        std::string service path="/"+ sp.first;
+        zkCli.Create(service_path.c_str(),nullptr,0);
+        
+        for(auto &mp :sp.second.m methodMap)
+        {
+            ///service name/method name
+            std::string method path = service path + "/"+ mp.first;
+            char method path data[128]={0};
+            sprintf(method path data,"%s:%d",ip.c str(),port);
+            zkcli.Create(method path.c str(), method path data, strlen(method path data), ZOO_EPHEMERAL
+        }
+    }
+
+
     
     //测试
     //std::cout << "RpcProvider start service at" << ip << " " << port << std::endl;
