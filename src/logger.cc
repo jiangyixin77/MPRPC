@@ -12,7 +12,7 @@ Logger::Logger()
 // 启动专门的写日志线程	使用lambda表达式
 std::thread writeLogTask([&]()
 {	
-	for(;;)
+  for(;;)
   {
     // 获取当前的日期，然后获取日志信息，写入相应的日志文件当中，文件名a+ 
     time_t now = time(nullptr); 
