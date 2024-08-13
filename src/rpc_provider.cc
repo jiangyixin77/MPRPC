@@ -106,8 +106,21 @@ void RpcProvider::OnMessage(const muduo::net::TcpConnectionPtr &conn,  muduo::ne
     //打印调试信息
     std::cout << "header_size:" << header_size << std::endl;
     std::cout << "rpc_header_str:" << rpc_header_str << std::endl;
-    std::cout << "service_name:" << service_name << std::endl;
-    std::cout << "method_name:" << method_name << std::endl;
+    
+    //std::cout << "service_name:" << service_name << std::endl;
+    LOG_INFO("service_name:%s",service_name);
+    
+    //std::cout << "method_name:" << method_name << std::endl;
+    for(int i=0;i<methodCnt;i++)
+    {
+        //获取了服务对象指定下标的服务方法的描述（抽象描述）  UserService
+        const google::protobuf::MethodDescriptor* pmethodDesc = pservice;
+        std::string method_name = pmethodDesc->name();
+        service_info.m_methodMap.insert({method_name,pmethodDesc});
+
+        LOG_INFO("method_name:%s",method_name);
+    }
+    
     std::cout << "args_size:" << args_size << std::endl;
 
     //获取service对象
