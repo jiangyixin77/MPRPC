@@ -31,13 +31,17 @@ std::thread writeLogTask([&]()
     std::string msg = m_lckQue.Pop();
     
     char time_buf[128] = {0};
-    sprintf(time_buf， "%d:%d:%d => ±， nowtm->tm_hour, nowtm->tm_min, nowtm->tm_sec); 
+    sprintf(time_buf,"%d:%d:%d->[%s]",
+	    nowtm->tm_hour,
+	    nowtm->tm_min,
+	    nowtm->tm_sec,
+	    (m_loglevel == INFO?"info":"error"));
     msg.insert(0,time_buf);
+    msg.append("\n");
     
     fputs(msg.c_str(),pf); 
     fclose(pf);
   }
-
 });
 // 设置分离线程，守护线程 
 writeLogTask.detach();
