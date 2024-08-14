@@ -1,4 +1,4 @@
-# mprpc分布式网络通信框架项目
+# MPRPC分布式网络通信框架项目
 本项目基于muduo高性能网络库+Protobuf开发
 
 # 技术栈
@@ -64,7 +64,6 @@
 - ```src/rpc_provider.h```
 - 进行CMake编译，生成```lib/libmprpc.so```以及可执行文件```bin/provider```
 
-
 # MPRPC框架配置文件加载
 - ```src/include/mprpc_config.h```
 - ```src/include/mprpc_config.cc```
@@ -119,9 +118,6 @@
 - ![image](https://github.com/user-attachments/assets/e6f9d4fd-030a-4fcd-8e22-74fd09bcffc6)
 - 永久性节点不会删，删临时性节点
 - ![image](https://github.com/user-attachments/assets/62b80d79-5461-4716-8609-88d3c00e5412)
-
-# zk的watcher机制
-事件回调机制，二者互相通信
 
 # 封装zk客户端类
 - ```src/include/zk_util.h```
